@@ -1,0 +1,48 @@
+{
+    "greeting": {
+        "examples": [
+            "hello",
+            "hi",
+            "hey",
+            "hello assistant",
+            "hey assistant",
+            "good morning",
+            "good afternoon",
+            "good evening",
+            "how are you"
+        ]
+    },
+    "time": {
+        "examples": [
+            "what time is it",
+            "tell me the time",
+            "what is the current time",
+            "what time is it right now",
+            "can you tell me the time",
+            "do you know the current time",
+            "what is the time now"
+        ]
+    },
+    "date": {
+        "examples": [
+            "what is today's date",
+            "tell me today's date",
+            "what date is it",
+            "what is the current date",
+            "tell me the date",
+            "what day is it today"
+        ]
+    },
+    "web_search": {
+        "examples": [
+            "search the web",
+            "search the internet",
+            "search for something",
+            "look this up",
+            "look it up",
+            "google this",
+            "find information about something",
+            "search online"
+        ]
+    }
+}

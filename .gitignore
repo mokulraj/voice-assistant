@@ -15,10 +15,6 @@ env/
 .vscode/
 .idea/
 
-# Operating system
-.DS_Store
-Thumbs.db
-
 # Test / coverage
 .pytest_cache/
 .coverage
@@ -31,3 +27,8 @@ htmlcov/
 build/
 dist/
 *.egg-info/
+
+# NLP / ML generated files
+*.model
+*.pkl
+*.pickle

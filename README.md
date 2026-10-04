@@ -68,3 +68,23 @@ Run the automated tests with:
 
 ```bash
 python -m pytest
+
+
+## Natural Language Understanding
+
+The project includes an initial NLP layer for identifying user intent
+and extracting entities from natural-language commands.
+
+Current intents:
+
+- greeting
+- time
+- date
+- web_search
+
+The NLP layer currently uses a lightweight word-overlap classifier.
+It is intentionally simple so that the application architecture can
+be tested before introducing more advanced machine-learning models.
+
+Future versions may use NLTK-based machine learning or transformer
+models for improved intent recognition.
