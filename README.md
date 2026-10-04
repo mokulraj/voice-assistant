@@ -60,3 +60,11 @@ voice-assistant/
 ├── .gitignore
 ├── requirements.txt
 └── README.md
+
+
+## Running Tests
+
+Run the automated tests with:
+
+```bash
+python -m pytest

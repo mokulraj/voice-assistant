@@ -1,5 +1,4 @@
-from app.commands.basic_commands import BasicCommands
-from app.commands.web_commands import WebCommands
+from app.commands.command_dispatcher import CommandDispatcher
 from app.voice.listener import Listener
 from app.voice.speaker import Speaker
 
@@ -10,43 +9,9 @@ class VoiceAssistant:
     def __init__(self):
         self.listener = Listener()
         self.speaker = Speaker()
-
-        self.basic_commands = BasicCommands()
-        self.web_commands = WebCommands()
+        self.command_dispatcher = CommandDispatcher()
 
         self.running = True
-
-    def process_command(self, text: str) -> str:
-        """
-        Process recognized user speech.
-
-        Args:
-            text: Recognized speech.
-
-        Returns:
-            Assistant response.
-        """
-
-        if not text:
-            return (
-                "Sorry, I didn't hear anything. "
-                "Please try again."
-            )
-
-        response = self.basic_commands.handle(text)
-
-        if response:
-            return response
-
-        response = self.web_commands.handle(text)
-
-        if response:
-            return response
-
-        return (
-            "Sorry, I don't understand that command yet. "
-            "Please try again."
-        )
 
     def run(self):
         """Start the voice assistant."""
@@ -68,7 +33,7 @@ class VoiceAssistant:
                     )
                     continue
 
-                response = self.process_command(text)
+                response = self.command_dispatcher.dispatch(text)
 
                 self.speaker.speak(response)
 
