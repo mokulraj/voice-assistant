@@ -1,4 +1,5 @@
 from app.commands.basic_commands import BasicCommands
+from app.commands.web_commands import WebCommands
 from app.voice.listener import Listener
 from app.voice.speaker import Speaker
 
@@ -10,6 +11,7 @@ class VoiceAssistant:
         self.listener = Listener()
         self.speaker = Speaker()
         self.basic_commands = BasicCommands()
+        self.web_commands = WebCommands()
 
     def process_command(self, text: str) -> str:
         """
@@ -26,6 +28,11 @@ class VoiceAssistant:
             return "Sorry, I didn't hear anything."
 
         response = self.basic_commands.handle(text)
+
+        if response:
+            return response
+
+        response = self.web_commands.handle(text)
 
         if response:
             return response
