@@ -10,8 +10,11 @@ class VoiceAssistant:
     def __init__(self):
         self.listener = Listener()
         self.speaker = Speaker()
+
         self.basic_commands = BasicCommands()
         self.web_commands = WebCommands()
+
+        self.running = True
 
     def process_command(self, text: str) -> str:
         """
@@ -25,7 +28,10 @@ class VoiceAssistant:
         """
 
         if not text:
-            return "Sorry, I didn't hear anything."
+            return (
+                "Sorry, I didn't hear anything. "
+                "Please try again."
+            )
 
         response = self.basic_commands.handle(text)
 
@@ -43,18 +49,19 @@ class VoiceAssistant:
         )
 
     def run(self):
-        """Start the continuous voice assistant loop."""
+        """Start the voice assistant."""
 
         self.speaker.speak(
             "Hello! Voice assistant started. "
             "How can I help you?"
         )
 
-        while True:
+        while self.running:
+
             try:
                 text = self.listener.listen()
 
-                if not text:
+                if text is None:
                     self.speaker.speak(
                         "Sorry, I could not understand you. "
                         "Please try again."
@@ -66,10 +73,21 @@ class VoiceAssistant:
                 self.speaker.speak(response)
 
             except KeyboardInterrupt:
-                print("\nStopping voice assistant...")
+                self.stop()
+
+            except Exception as error:
+                print(f"Unexpected application error: {error}")
 
                 self.speaker.speak(
-                    "Goodbye!"
+                    "Something went wrong. "
+                    "Please try again."
                 )
 
-                break
+    def stop(self):
+        """Stop the voice assistant."""
+
+        self.running = False
+
+        print("\nStopping voice assistant...")
+
+        self.speaker.speak("Goodbye!")

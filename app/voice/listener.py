@@ -7,47 +7,64 @@ class Listener:
     def __init__(self):
         self.recognizer = sr.Recognizer()
 
-    def listen(self) -> str:
+        # Maximum time to wait for the user to start speaking.
+        self.listen_timeout = 5
+
+        # Maximum length of one spoken command.
+        self.phrase_time_limit = 10
+
+    def listen(self) -> str | None:
         """
         Listen to the microphone and convert speech to text.
 
         Returns:
-            str: The recognized speech in lowercase.
+            Recognized text as a lowercase string.
+            None when speech cannot be processed.
         """
 
-        with sr.Microphone() as source:
-            print("Listening...")
+        try:
+            with sr.Microphone() as source:
+                print("Listening...")
 
-            # Adjust the microphone for surrounding noise.
-            self.recognizer.adjust_for_ambient_noise(
-                source,
-                duration=1
-            )
-
-            try:
-                audio = self.recognizer.listen(
+                # Adjust for background noise.
+                self.recognizer.adjust_for_ambient_noise(
                     source,
-                    timeout=5,
-                    phrase_time_limit=10
+                    duration=0.5
                 )
 
-            except sr.WaitTimeoutError:
-                print("No speech detected.")
-                return ""
+                try:
+                    audio = self.recognizer.listen(
+                        source,
+                        timeout=self.listen_timeout,
+                        phrase_time_limit=self.phrase_time_limit
+                    )
+
+                except sr.WaitTimeoutError:
+                    print("No speech detected.")
+                    return None
+
+        except OSError as error:
+            print(f"Microphone error: {error}")
+            return None
 
         try:
             print("Recognizing...")
 
             text = self.recognizer.recognize_google(audio)
 
+            text = text.strip().lower()
+
+            if not text:
+                return None
+
             print(f"You said: {text}")
 
-            return text.lower()
+            return text
 
         except sr.UnknownValueError:
-            print("Sorry, I could not understand what you said.")
-            return ""
+            print("Speech could not be understood.")
+            return None
 
         except sr.RequestError as error:
             print(f"Speech recognition service error: {error}")
-            return ""
+            return None
