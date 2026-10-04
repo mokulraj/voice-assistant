@@ -1,11 +1,21 @@
-from app.voice.speaker import Speaker
+from app.voice.listener import Listener
 
 
 def main():
-    speaker = Speaker()
+    listener = Listener()
 
-    speaker.speak("Hello! I am your Python voice assistant.")
-    speaker.speak("Module one is working successfully.")
+    print("Voice Assistant - Microphone Test")
+    print("----------------------------------")
+    print("Say something after 'Listening...'")
+    print("Press Ctrl+C to stop.")
+    print()
+
+    while True:
+        text = listener.listen()
+
+        if text:
+            print(f"Python received: {text}")
+            print()
 
 
 if __name__ == "__main__":
