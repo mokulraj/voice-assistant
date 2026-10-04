@@ -1,21 +1,9 @@
-from app.voice.listener import Listener
+from app.core.assistant import VoiceAssistant
 
 
 def main():
-    listener = Listener()
-
-    print("Voice Assistant - Microphone Test")
-    print("----------------------------------")
-    print("Say something after 'Listening...'")
-    print("Press Ctrl+C to stop.")
-    print()
-
-    while True:
-        text = listener.listen()
-
-        if text:
-            print(f"Python received: {text}")
-            print()
+    assistant = VoiceAssistant()
+    assistant.run()
 
 
 if __name__ == "__main__":
