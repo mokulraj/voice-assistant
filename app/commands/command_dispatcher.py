@@ -1,7 +1,9 @@
 from app.commands.basic_commands import BasicCommands
+from app.commands.reminder_commands import ReminderCommands
 from app.commands.web_commands import WebCommands
 from app.nlp.entity_extractor import EntityExtractor
 from app.nlp.intent_classifier import IntentClassifier
+from app.voice.speaker import Speaker
 
 
 class CommandDispatcher:
@@ -10,29 +12,16 @@ class CommandDispatcher:
     def __init__(self):
         self.basic_commands = BasicCommands()
         self.web_commands = WebCommands()
-
+        self.speaker = Speaker()
+        self.reminder_commands = ReminderCommands(self.speaker)
         self.intent_classifier = IntentClassifier()
         self.entity_extractor = EntityExtractor()
 
     def dispatch(self, text: str) -> str:
-        """
-        Process a natural-language command.
-
-        Args:
-            text: Recognized speech from the user.
-
-        Returns:
-            Assistant response.
-        """
-
         if not text:
-            return (
-                "Sorry, I didn't hear anything. "
-                "Please try again."
-            )
+            return "Sorry, I didn't hear anything. Please try again."
 
         intent = self.intent_classifier.classify(text)
-
         print(f"Detected intent: {intent}")
 
         if intent == "greeting":
@@ -47,14 +36,12 @@ class CommandDispatcher:
         if intent == "web_search":
             return self._handle_web_search(text)
 
-        return (
-            "Sorry, I don't understand that command yet. "
-            "Please try again."
-        )
+        if intent == "reminder":
+            return self.reminder_commands.set_reminder(text)
+
+        return "Sorry, I don't understand that command yet. Please try again."
 
     def _handle_web_search(self, text: str) -> str:
-        """Handle a web-search intent."""
-
         query = self.entity_extractor.extract_search_query(text)
 
         if not query:

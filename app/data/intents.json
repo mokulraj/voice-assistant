@@ -44,5 +44,18 @@
             "find information about something",
             "search online"
         ]
-    }
+    },
+
+    "reminder": {
+        "examples": [
+        "remind me in 10 seconds",
+        "remind me in 1 minute",
+        "remind me in 5 minutes",
+        "set a timer for 10 seconds",
+        "set a timer for 1 minute",
+        "set a timer for 5 minutes",
+        "set a timer for 1 hour"
+    ]
 }
+}
+

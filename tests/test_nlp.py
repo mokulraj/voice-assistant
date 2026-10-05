@@ -50,3 +50,13 @@ def test_unknown_intent():
     )
 
     assert result is None
+    
+    
+def test_reminder_intent():
+    classifier = IntentClassifier()
+
+    result = classifier.classify(
+        "remind me in 10 seconds"
+    )
+
+    assert result == "reminder"

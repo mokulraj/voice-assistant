@@ -76,3 +76,12 @@ def test_invalid_reminder():
         "Please tell me a duration, "
         "like remind me in 10 seconds."
     )
+    
+def test_reminder_command():
+    dispatcher = CommandDispatcher()
+
+    response = dispatcher.dispatch(
+        "remind me in 10 seconds"
+    )
+
+    assert response == "Okay, I will remind you in 10 seconds."
