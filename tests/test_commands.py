@@ -1,6 +1,7 @@
 from app.commands.basic_commands import BasicCommands
 from app.commands.command_dispatcher import CommandDispatcher
 from app.commands.web_commands import WebCommands
+from app.commands.reminder_commands import ReminderCommands
 
 
 def test_greeting():
@@ -42,3 +43,36 @@ def test_web_command_empty_query():
     commands = WebCommands()
     response = commands.search_web("")
     assert response == "I need a search topic."
+
+
+def test_reminder_seconds():
+    reminder = ReminderCommands(None)
+
+    response = reminder.set_reminder(
+        "remind me in 10 seconds"
+    )
+
+    assert response == "Okay, I will remind you in 10 seconds."
+
+
+def test_reminder_minutes():
+    reminder = ReminderCommands(None)
+
+    response = reminder.set_reminder(
+        "set a timer for 2 minutes"
+    )
+
+    assert response == "Okay, I will remind you in 2 minutes."
+
+
+def test_invalid_reminder():
+    reminder = ReminderCommands(None)
+
+    response = reminder.set_reminder(
+        "remind me tomorrow"
+    )
+
+    assert response == (
+        "Please tell me a duration, "
+        "like remind me in 10 seconds."
+    )
